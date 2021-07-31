@@ -42,5 +42,46 @@ CHIP ALU {
         ng; // 1 if (out < 0),  0 otherwise
 
     PARTS:
-   // Put you code here:
+    // Put you code here:
+
+    // zx:
+    Mux16(a=true, b=false, sel=zx, out=notzx);
+    And16(a=notzx, b=x, out=outzx);
+
+    // nx:
+    Not16(in=outzx, out=notoutzx);
+    Mux16(a=outzx, b=notoutzx, sel=nx, out=outnx);
+
+    // zy:
+    Mux16(a=true, b=false, sel=zy, out=notzy);
+    And16(a=notzy, b=y, out=outzy);
+
+    // ny:
+    Not16(in=outzy, out=notoutzy);
+    Mux16(a=outzy, b=notoutzy, sel=ny, out=outny);
+
+    // f:
+    Add16(a=outnx, b=outny, out=addxy);
+    And16(a=outnx, b=outny, out=andxy);
+    Mux16(a=andxy, b=addxy, sel=f, out=outf);
+
+    // no:
+    Not16(in=outf, out=notoutf);
+    Mux16(a=outf, b=notoutf, sel=no, out=outno);
+
+    // zr:
+    And16(a=outno, b=outno, out[0..7]=first8bitsoutno);
+    And16(a=outno, b=outno, out[8..15]=last8bitsoutno);
+    Or8Way(in=first8bitsoutno, out=orfirst8bits);
+    Or8Way(in=last8bitsoutno, out=orlast8bits);
+    Or(a=orfirst8bits, b=orlast8bits, out=orzr);
+    Not(in=orzr, out=zr);
+
+    // ng:
+    And16(a=outno, b=outno, out[15]=outnolastbit);
+    Mux(a=false, b=true, sel=outnolastbit, out=ng);
+
+    // out:
+    And16(a=outno, b=outno, out=out);
+
 }

@@ -1,0 +1,112 @@
+1 1 1 1 1
+01111101
+00110110
+10110011
+
+2-bit addition:
+a b s r
+0 0 0 0
+0 1 1 0
+1 0 1 0
+1 1 0 1
+
+s = a xor b
+r = a and b
+
+3-bit addition:
+c a b   s r        ideal: s r
+0 0 0   0 0               0 0
+0 0 1   1 0               1 0
+0 1 0   1 0               1 0
+0 1 1   0 1               0 1
+1 0 0   0 0               1 0
+1 0 1   1 0               0 1
+1 1 0   1 0               0 1
+1 1 1   0 1               1 1
+
+c=0 remain. c=1 sum with S
+
+c s r   s r
+1 0 0   1 0
+1 1 0   0 1
+1 0 1   1 1
+
+s = c xor s
+r = c or r and nand(s r)
+
+2bit(a, b) => S R
+
+a b s r
+0 0 0 0
+0 1 1 0
+1 0 1 0
+1 1 0 1
+
+c with s
+c S     s r
+0 0     0 0
+0 1     1 0
+1 0     1 0
+1 1     1 1
+
+s = c or S
+r = c and S
+
+sum 2 full numbers:
+first 2 bits will be 2-bit sum, all the other 7 will be 3-bit sum.
+
+negate number:
+x => -x
+
+pega 1111 1111. subtrai x, se x = 10:
+
+    1111 1111
+-   1000 1010
+-----------------
+    0111 0101
++           1
+-----------------
+    0111 0110
+
+
+0110
+
+1111
+0110
+1001
+1010
+
+positive to negative:
+if 0011 is positive, then its negative will be 1011
+
+tip: flip the bits from right to left, stopping the first time 0 is flipped to 1. (cause that means that's not carrying anything)
+
+what about negative to positive? same, but subtract by 1.... hold on. We don't have subtract.
+
+
+john neumann wrote how general computers could be built.
+
+
+zr = zero > 1 if zero
+ng = negative > 1 if negative
+
+incrementor:
+
+increment 1....
+just do a full addition with false false.... (15x) and 1 true?
+
+
+ 0000
++0001
+=0001
+
+0001
+0001
+0010
+
+0011
+0001
+0100
+
+there's a better way to add 16 dudes.
+
